@@ -143,7 +143,7 @@ def add_column(_column_name: str, _column_key: str, _column_type: str, _column_d
     write_simple_result(row_data)
 
 if __name__ == "__main__":
-    # list_metadata_records("zfl0", 0, 10)
+    # list_metadata_records("hbqp", 0, 10)
     # update_metadata_record("/", "test.sdoc", {"_description": "18888"})
     
     # add_column("testColumn", "testColumn", "text")
