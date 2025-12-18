@@ -4,7 +4,7 @@ from local_settings import SEATABLE_API_TOKEN
 
 
 # --- Seafile 配置 ---
-SEAFIEL_SERVER_URL = "https://dev.seafile.com/seahub"
+SEAFILE_SERVER_URL = "https://dev.seafile.com/seahub"
 REPO_ID = "dc06e4ec-95f3-4005-88d0-dd18029f5ea6"
 
 # --- SeaTable 配置 ---

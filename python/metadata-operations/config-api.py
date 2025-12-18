@@ -5,14 +5,14 @@ import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
-from constants import SEAFIEL_SERVER_URL, REPO_ID, get_formatted_time, write_simple_result
+from constants import SEAFILE_SERVER_URL, REPO_ID, get_formatted_time, write_simple_result
 from local_settings import SEAFILE_API_TOKEN
 
 
 
 # --- Seafile API 测试 ---
 def get_metadata_enable_status():
-    url = f"{SEAFIEL_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/"    
+    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/"    
     headers = {
         "accept": "application/json",
         "authorization": f"Bearer {SEAFILE_API_TOKEN}"
@@ -34,7 +34,7 @@ def get_metadata_enable_status():
 
 
 def enable_metadata():
-    url = f"{SEAFIEL_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/"
+    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/"
     headers = {
         "accept": "application/json",
         "authorization": f"Bearer {SEAFILE_API_TOKEN}"
@@ -56,7 +56,7 @@ def enable_metadata():
 
 
 def disable_metadata():
-    url = f"{SEAFIEL_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/"
+    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/"
     headers = {
         "accept": "application/json",
         "authorization": f"Bearer {SEAFILE_API_TOKEN}"
@@ -78,7 +78,7 @@ def disable_metadata():
 
 
 def details_settings(_columns: list[str] = []):
-    url = f"{SEAFIEL_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/details-settings/"
+    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/details-settings/"
     payload = { "settings": { "columns": _columns } }
     headers = {
         "accept": "application/json",
@@ -102,7 +102,7 @@ def details_settings(_columns: list[str] = []):
 
 
 def exract_file_details(_obj_ids: list[str]):
-    url = f"{SEAFIEL_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/extract-file-details/"
+    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/extract-file-details/"
     payload = { "obj_ids": _obj_ids }
     headers = {
         "accept": "application/json",

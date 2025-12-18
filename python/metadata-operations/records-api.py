@@ -6,12 +6,12 @@ import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
-from constants import SEAFIEL_SERVER_URL, REPO_ID, get_formatted_time, write_simple_result
+from constants import SEAFILE_SERVER_URL, REPO_ID, get_formatted_time, write_simple_result
 from local_settings import SEAFILE_API_TOKEN
 
 
 def list_metadata_records(_view_id: str, _start: int, _limit: int):
-    url = f"{SEAFIEL_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/records/?view_id={_view_id}&start={_start}&limit={_limit}"
+    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/records/?view_id={_view_id}&start={_start}&limit={_limit}"
     headers = {
         "accept": "application/json",
         "authorization": f"Bearer {SEAFILE_API_TOKEN}"
@@ -41,7 +41,7 @@ class PayloadStructure(TypedDict):
     records_data: List[RecordItem]
 
 def update_metadata_records(_payload: PayloadStructure):
-    url = f"{SEAFIEL_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/records/"
+    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/records/"
     
     payload = _payload
     headers = {
@@ -65,7 +65,7 @@ def update_metadata_records(_payload: PayloadStructure):
     write_simple_result(row_data)
 
 def get_metadata_record(_parent_dir: str, _file_name: str):
-    url = f"{SEAFIEL_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/record/?parent_dir={_parent_dir}&file_name={_file_name}"
+    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/record/?parent_dir={_parent_dir}&file_name={_file_name}"
     headers = {
         "accept": "application/json",
         "authorization": f"Bearer {SEAFILE_API_TOKEN}"
@@ -86,7 +86,7 @@ def get_metadata_record(_parent_dir: str, _file_name: str):
     write_simple_result(row_data)
 
 def update_metadata_record(_parent_dir: str, _file_name: str, _data: dict):
-    url = f"{SEAFIEL_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/record/"
+    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/record/"
     
     payload = {
         "parent_dir": _parent_dir,
@@ -113,9 +113,9 @@ def update_metadata_record(_parent_dir: str, _file_name: str, _data: dict):
     }
     write_simple_result(row_data)
 
-
-def add_column(_column_name: str, _column_key: str, _column_type: str, _column_data: str):
-    url = f"{SEAFIEL_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/columns/"
+# _column_data 接收json对象
+def add_column(_column_name: str, _column_key: str, _column_type: str, _column_data: dict = None):
+    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/columns/"
     payload = {
         "column_name": _column_name,
         "column_key": _column_key,
@@ -145,9 +145,10 @@ def add_column(_column_name: str, _column_key: str, _column_type: str, _column_d
 if __name__ == "__main__":
     # list_metadata_records("zfl0", 0, 10)
     # update_metadata_record("/", "test.sdoc", {"_description": "18888"})
+    
+    # add_column("testColumn", "testColumn", "text")
     # get_metadata_record("/", "test.sdoc")
-    #TODO: response 500
-    # add_column("testColumn", "testColumn", "string", "testColumn-data")
+
     # data: PayloadStructure = {
     #     "records_data": [
     #         {
@@ -160,3 +161,4 @@ if __name__ == "__main__":
     #     ]
     # }
     # update_metadata_records(data)
+    pass
