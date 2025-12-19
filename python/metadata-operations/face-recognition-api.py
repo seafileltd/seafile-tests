@@ -116,51 +116,51 @@ def remove_people_photos(_people_id: str, _payload: dict = None):
     }
     write_simple_result(row_data)
 
-def add_people_photos(_people_id: str, _payload: dict = None):
-    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/people-photos/{_people_id}/"
-    payload = _payload
-    headers = {
-        "accept": "application/json",
-        "content-type": "application/json",
-        "authorization": f"Bearer {SEAFILE_API_TOKEN}"
-    }
-    formatted_time = get_formatted_time()
-    try:
-        response = requests.post(url, json=payload, headers=headers)
-    except Exception as e:
-        print(f"请求失败: {e}")
-    print(f"add_people_photos Status Code: {response.status_code}")
+# def add_people_photos(_people_id: str, _payload: dict = None):
+#     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/people-photos/{_people_id}/"
+#     payload = _payload
+#     headers = {
+#         "accept": "application/json",
+#         "content-type": "application/json",
+#         "authorization": f"Bearer {SEAFILE_API_TOKEN}"
+#     }
+#     formatted_time = get_formatted_time()
+#     try:
+#         response = requests.post(url, json=payload, headers=headers)
+#     except Exception as e:
+#         print(f"请求失败: {e}")
+#     print(f"add_people_photos Status Code: {response.status_code}")
 
-    row_data = {
-        "Operation": "Add people photos",
-        "Status Code": response.status_code,
-        "Response": response.text,
-        "Time": formatted_time
-    }
-    write_simple_result(row_data)
+#     row_data = {
+#         "Operation": "Add people photos",
+#         "Status Code": response.status_code,
+#         "Response": response.text,
+#         "Time": formatted_time
+#     }
+#     write_simple_result(row_data)
 
-def update_face_name(_payload: dict = None):
-    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/face-record/"
-    payload = _payload
-    headers = {
-        "accept": "application/json",
-        "content-type": "application/json",
-        "authorization": f"Bearer {SEAFILE_API_TOKEN}"
-    }
-    formatted_time = get_formatted_time()
-    try:
-        response = requests.put(url, json=payload, headers=headers)
-    except Exception as e:
-        print(f"请求失败: {e}")
-    print(f"update_face_name Status Code: {response.status_code}")
+# def update_face_name(_payload: dict = None):
+#     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/face-record/"
+#     payload = _payload
+#     headers = {
+#         "accept": "application/json",
+#         "content-type": "application/json",
+#         "authorization": f"Bearer {SEAFILE_API_TOKEN}"
+#     }
+#     formatted_time = get_formatted_time()
+#     try:
+#         response = requests.put(url, json=payload, headers=headers)
+#     except Exception as e:
+#         print(f"请求失败: {e}")
+#     print(f"update_face_name Status Code: {response.status_code}")
 
-    row_data = {
-        "Operation": "Update face name",
-        "Status Code": response.status_code,
-        "Response": response.text,
-        "Time": formatted_time
-    }
-    write_simple_result(row_data)
+#     row_data = {
+#         "Operation": "Update face name",
+#         "Status Code": response.status_code,
+#         "Response": response.text,
+#         "Time": formatted_time
+#     }
+#     write_simple_result(row_data)
 
 def update_people_cover_photo(_people_id: str, _payload: dict = None):
     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/people-cover-photo/{_people_id}/"

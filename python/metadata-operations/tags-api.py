@@ -9,26 +9,26 @@ from constants import SEAFILE_SERVER_URL, REPO_ID, get_formatted_time, write_sim
 from local_settings import SEAFILE_API_TOKEN
 
 
-def turn_on_tags_feature():
-    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/tags-status/"
-    headers = {
-        "accept": "application/json",
-        "authorization": f"Bearer {SEAFILE_API_TOKEN}"
-    }
-    formatted_time = get_formatted_time()
-    try:
-        response = requests.put(url, headers=headers)
-    except Exception as e:
-        print(f"请求失败: {e}")
-    print(f"turn_on_tags_feature Status Code: {response.status_code}")
+# def turn_on_tags_feature():
+#     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/tags-status/"
+#     headers = {
+#         "accept": "application/json",
+#         "authorization": f"Bearer {SEAFILE_API_TOKEN}"
+#     }
+#     formatted_time = get_formatted_time()
+#     try:
+#         response = requests.put(url, headers=headers)
+#     except Exception as e:
+#         print(f"请求失败: {e}")
+#     print(f"turn_on_tags_feature Status Code: {response.status_code}")
 
-    row_data = {
-        "Operation": "Turn on tags feature",
-        "Status Code": response.status_code,
-        "Response": response.text,
-        "Time": formatted_time
-    }
-    write_simple_result(row_data)
+#     row_data = {
+#         "Operation": "Turn on tags feature",
+#         "Status Code": response.status_code,
+#         "Response": response.text,
+#         "Time": formatted_time
+#     }
+#     write_simple_result(row_data)
 
 def turn_off_tags_feature():
     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/tags-status/"
@@ -237,28 +237,28 @@ def add_tags_links(_payload: dict):
     }
     write_simple_result(row_data)
 
-def update_tags_links(_payload: dict):
-    url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/tags-links/"
-    payload = _payload
-    headers = {
-        "accept": "application/json",
-        "content-type": "application/json",
-        "authorization": f"Bearer {SEAFILE_API_TOKEN}",
-    }
-    formatted_time = get_formatted_time()
-    try:
-        response = requests.put(url, json=payload, headers=headers)
-    except Exception as e:
-        print(f"请求失败: {e}")
-    print(f"update_tags_links Status Code: {response.status_code}")
+# def update_tags_links(_payload: dict):
+#     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/tags-links/"
+#     payload = _payload
+#     headers = {
+#         "accept": "application/json",
+#         "content-type": "application/json",
+#         "authorization": f"Bearer {SEAFILE_API_TOKEN}",
+#     }
+#     formatted_time = get_formatted_time()
+#     try:
+#         response = requests.put(url, json=payload, headers=headers)
+#     except Exception as e:
+#         print(f"请求失败: {e}")
+#     print(f"update_tags_links Status Code: {response.status_code}")
 
-    row_data = {
-        "Operation": "Update tags links",
-        "Status Code": response.status_code,
-        "Response": response.text,
-        "Time": formatted_time
-    }
-    write_simple_result(row_data)
+#     row_data = {
+#         "Operation": "Update tags links",
+#         "Status Code": response.status_code,
+#         "Response": response.text,
+#         "Time": formatted_time
+#     }
+#     write_simple_result(row_data)
 
 def delete_tags_links(_payload: dict):
     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/tags-links/"
