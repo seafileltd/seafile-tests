@@ -4,6 +4,8 @@ import os
 import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
+granfparent_dir = os.path.dirname(parent_dir)
+sys.path.append(granfparent_dir)
 sys.path.append(parent_dir)
 from constants import SEAFILE_SERVER_URL, REPO_ID, get_formatted_time, write_simple_result
 from local_settings import SEAFILE_API_TOKEN
@@ -18,7 +20,7 @@ from local_settings import SEAFILE_API_TOKEN
 #     try:
 #         response = requests.put(url, headers=headers)
 #     except Exception as e:
-#         print(f"请求失败: {e}")
+#         print(f"request failed: {e}")
 #     print(f"turn_on_ocr_feature Status Code: {response.status_code}")
 
 #     row_data = {
@@ -39,7 +41,7 @@ from local_settings import SEAFILE_API_TOKEN
 #     try:
 #         response = requests.delete(url, headers=headers)
 #     except Exception as e:
-#         print(f"请求失败: {e}")
+#         print(f"request failed: {e}")
 #     print(f"turn_off_ocr_feature Status Code: {response.status_code}")
 
 #     row_data = {
@@ -51,5 +53,5 @@ from local_settings import SEAFILE_API_TOKEN
 #     write_simple_result(row_data)
 
 if __name__ == "__main__":
-    #暂时请求失败
+    #request failed
     pass

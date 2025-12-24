@@ -4,6 +4,8 @@ import os
 import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
+granfparent_dir = os.path.dirname(parent_dir)
+sys.path.append(granfparent_dir)
 sys.path.append(parent_dir)
 from constants import SEAFILE_SERVER_URL, REPO_ID, get_formatted_time, write_simple_result
 from local_settings import SEAFILE_API_TOKEN
@@ -19,7 +21,7 @@ def list_views():
     try:
         response = requests.get(url, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"list_views Status Code: {response.status_code}")
 
     row_data = {
@@ -44,7 +46,7 @@ def add_view(_name: str):
     try:
         response = requests.post(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"add_view Status Code: {response.status_code}")
 
     row_data = {
@@ -70,7 +72,7 @@ def update_view(_view_id: str, _view_name: str):
     try:
         response = requests.put(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"update_view Status Code: {response.status_code}")
 
     row_data = {
@@ -95,7 +97,7 @@ def delete_view(_view_id: str):
     try:
         response = requests.delete(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"delete_view Status Code: {response.status_code}")
 
     row_data = {
@@ -119,7 +121,7 @@ def get_a_view(_view_id: str):
     try:
         response = requests.get(url, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"get_a_view Status Code: {response.status_code}")
 
     row_data = {
@@ -145,7 +147,7 @@ def move_view(_source_view_id: str, _target_view_id: str):
     try:
         response = requests.post(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"move_view Status Code: {response.status_code}")
 
     row_data = {
@@ -170,7 +172,7 @@ def duplicate_view(_view_id: str):
     try:
         response = requests.post(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"duplicate_view Status Code: {response.status_code}")
 
     row_data = {

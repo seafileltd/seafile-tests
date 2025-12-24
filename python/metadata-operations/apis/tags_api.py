@@ -4,6 +4,8 @@ import os
 import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
+granfparent_dir = os.path.dirname(parent_dir)
+sys.path.append(granfparent_dir)
 sys.path.append(parent_dir)
 from constants import SEAFILE_SERVER_URL, REPO_ID, get_formatted_time, write_simple_result
 from local_settings import SEAFILE_API_TOKEN
@@ -19,7 +21,7 @@ from local_settings import SEAFILE_API_TOKEN
 #     try:
 #         response = requests.put(url, headers=headers)
 #     except Exception as e:
-#         print(f"请求失败: {e}")
+#         print(f"request failed: {e}")
 #     print(f"turn_on_tags_feature Status Code: {response.status_code}")
 
 #     row_data = {
@@ -40,7 +42,7 @@ def turn_off_tags_feature():
     try:
         response = requests.delete(url, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"turn_off_tags_feature Status Code: {response.status_code}")
 
     row_data = {
@@ -61,7 +63,7 @@ def list_tags():
     try:
         response = requests.get(url, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"list_tags Status Code: {response.status_code}")
 
     row_data = {
@@ -86,7 +88,7 @@ def add_tags(_tags_data: list[dict]):
     try:
         response = requests.post(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"add_tags Status Code: {response.status_code}")
 
     row_data = {
@@ -111,7 +113,7 @@ def update_tags(_tags_data: list[dict]):
     try:
         response = requests.put(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"update_tags Status Code: {response.status_code}")
 
     row_data = {
@@ -136,7 +138,7 @@ def delete_tags(_tag_ids: list[str]):
     try:
         response = requests.delete(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"delete_tags Status Code: {response.status_code}")
 
     row_data = {
@@ -159,7 +161,7 @@ def update_file_tags(_payload: dict):
     try:
         response = requests.put(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"update_file_tags Status Code: {response.status_code}")
 
     row_data = {
@@ -180,7 +182,7 @@ def list_tag_files(_tag_id: str):
     try:
         response = requests.get(url, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"list_tag_files Status Code: {response.status_code}")
 
     row_data = {
@@ -203,7 +205,7 @@ def list_tags_files(_payload: dict):
     try:
         response = requests.post(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"list_tags_files Status Code: {response.status_code}")
 
     row_data = {
@@ -226,7 +228,7 @@ def add_tags_links(_payload: dict):
     try:
         response = requests.post(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"add_tags_links Status Code: {response.status_code}")
 
     row_data = {
@@ -249,7 +251,7 @@ def add_tags_links(_payload: dict):
 #     try:
 #         response = requests.put(url, json=payload, headers=headers)
 #     except Exception as e:
-#         print(f"请求失败: {e}")
+#         print(f"request failed: {e}")
 #     print(f"update_tags_links Status Code: {response.status_code}")
 
 #     row_data = {
@@ -272,7 +274,7 @@ def delete_tags_links(_payload: dict):
     try:
         response = requests.delete(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"delete_tags_links Status Code: {response.status_code}")
 
     row_data = {
@@ -295,7 +297,7 @@ def merge_tags(_payload: dict):
     try:
         response = requests.post(url, json=payload, headers=headers)
     except Exception as e:
-        print(f"请求失败: {e}")
+        print(f"request failed: {e}")
     print(f"merge_tags Status Code: {response.status_code}")
 
     row_data = {
