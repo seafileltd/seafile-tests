@@ -32,6 +32,10 @@ def list_metadata_records(_view_id: str, _start: int, _limit: int):
         "Time": formatted_time
     }
     write_simple_result(row_data)
+    if response.status_code == 200:
+        return response.text
+    else:
+        return None
 
 
 class RecordItem(TypedDict):
@@ -44,7 +48,6 @@ class PayloadStructure(TypedDict):
 
 def update_metadata_records(_payload: PayloadStructure):
     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/records/"
-    
     payload = _payload
     headers = {
         "accept": "application/json",
@@ -87,14 +90,9 @@ def get_metadata_record(_parent_dir: str, _file_name: str):
     }
     write_simple_result(row_data)
 
-def update_metadata_record(_parent_dir: str, _file_name: str, _data: dict):
+def update_metadata_record(_payload: dict):
     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/record/"
-    
-    payload = {
-        "parent_dir": _parent_dir,
-        "file_name": _file_name,
-        "data": _data
-    }
+    payload = _payload
     headers = {
         "accept": "application/json",
         "content-type": "application/json",

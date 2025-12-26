@@ -31,6 +31,10 @@ def get_metadata_enable_status():
         "Time": formatted_time
     }
     write_simple_result(row_data)
+    if response.status_code == 200:
+        return response.text
+    else:
+        return None
 
 
 def enable_metadata():

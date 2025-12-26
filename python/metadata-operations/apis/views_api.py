@@ -31,12 +31,14 @@ def list_views():
         "Time": formatted_time
     }
     write_simple_result(row_data)
+    if response.status_code == 200:
+        return response.text
+    else:
+        return None
 
-def add_view(_name: str):
+def add_view(_payload: dict):
     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/views/"
-    payload = {
-        "name": _name,
-    }
+    payload = _payload
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
@@ -56,6 +58,10 @@ def add_view(_name: str):
         "Time": formatted_time
     }
     write_simple_result(row_data)
+    if response.status_code == 200:
+        return response.text
+    else:
+        return None
 
 def update_view(_view_id: str, _view_name: str):
     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/views/"

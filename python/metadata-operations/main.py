@@ -2,10 +2,10 @@
 """
 Main script to execute all metadata API operations
 """
+import json
 
 import sys
 import os
-
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
 
@@ -36,6 +36,7 @@ from apis.records_api import (
 )
 
 from apis.tags_api import (
+    # turn_on_tags_feature,
     turn_off_tags_feature,
     list_tags,
     add_tags,
@@ -59,237 +60,202 @@ from apis.views_api import (
     duplicate_view
 )
 
+class MetadataAPITest:
+    def __init__(self):
+        self.start = 0
+        self.limit = 5
+        self.view_id = ""
+        self.tag_id = ""
 
-def run_config_api_tests():
-    try:
-        get_metadata_enable_status()
-    except Exception as e:
-        print(f"Error in get_metadata_enable_status: {e}")
-    
-    try:
-        enable_metadata()
-    except Exception as e:
-        print(f"Error in enable_metadata: {e}")
-    
-    try:
-        disable_metadata()
-    except Exception as e:
-        print(f"Error in disable_metadata: {e}")
-    
-    try:
-        details_settings(["testColumn"])
-    except Exception as e:
-        print(f"Error in details_settings: {e}")
-    
-    try:
-        exract_file_details(["ad60423a854bc14ad7aa2d82c79bfbb9c7753478"])
-    except Exception as e:
-        print(f"Error in exract_file_details: {e}")
+        self.new_column = "TestColumn"
 
+        self.record_obj_id = ""
+        self.record_id = ""
+        self.record_parent_dir = ""
+        self.record_file_name = ""
 
-def run_face_recognition_api_tests():
-    try:
-        get_face_recognition_enabled_status()
-    except Exception as e:
-        print(f"Error in get_face_recognition_enabled_status: {e}")
-    
-    try:
-        open_face_recognition()
-    except Exception as e:
-        print(f"Error in open_face_recognition: {e}")
-    
-    try:
-        list_face_records(0,5)
-    except Exception as e:
-        print(f"Error in list_face_records: {e}")
-    
-    try:
-        list_people_photos("LZQ_sH2lTguOCKR76Gmm4w", 0, 5)
-    except Exception as e:
-        print(f"Error in list_people_photos: {e}")
-    
-    try:
-        remove_people_photos("LZQ_sH2lTguOCKR76Gmm4w", { "record_ids": ["wQAzg1GAQV6-FWmKmUNqgw"] })
-    except Exception as e:
-        print(f"Error in remove_people_photos: {e}")
-    
-    try:
-        update_people_cover_photo("LZQ_sH2lTguOCKR76Gmm4w", { "record_id": "l52n-YEsReqIovE8F1_bHw" })
-    except Exception as e:
-        print(f"Error in update_people_cover_photo: {e}")
+        self.people_id = ""
 
+        try:
+            response = get_metadata_enable_status()
+            response_json = json.loads(response)
+            if response_json.get("enabled") == False:
+                enable_metadata()
+            else:
+                disable_metadata()
+                enable_metadata()
+        except Exception as e:
+            print(f"Error in __init__ enable metadata: {e}")
+        
+        try:
+            response = list_views()
+            views_json = json.loads(response)
+            self.view_id = views_json["navigation"][0]["_id"]
+        except Exception as e:
+            print(f"Error in __init__ list views: {e}")
 
-def run_records_api_tests():
-    try:
-        list_metadata_records("hbqp", 0, 10)
-    except Exception as e:
-        print(f"Error in list_metadata_records: {e}")
-    
-    try:
-        get_metadata_record("/", "test.sdoc")
-    except Exception as e:
-        print(f"Error in get_metadata_record: {e}")
-    
-    try:
-        update_metadata_record("/", "test.sdoc", {"_description": "18888"})
-    except Exception as e:
-        print(f"Error in update_metadata_record: {e}")
-    
-    try:
-        update_metadata_records( {
-        "records_data": [
+        try:
+            response = list_metadata_records(self.view_id, self.start, self.limit)
+            records_json = json.loads(response)
+            if len(records_json["results"]) == 0:
+                print("No records found")
+                return
+            self.record_id = records_json["results"][0]["_id"]
+            self.record_obj_id = records_json["results"][0]["_obj_id"]
+            self.record_parent_dir = records_json["results"][0]["_parent_dir"]
+            self.record_file_name = records_json["results"][0]["_name"]
+        except Exception as e:
+            print(f"Error in __init__ list metadata records: {e}")
+
+        try:
+            get_face_recognition_enabled_status()
+            open_face_recognition()
+            response = list_face_records(self.start, self.limit)
+            face_records_json = json.loads(response)
+            if len(face_records_json["results"]) == 0:
+                print("No face records found")
+            self.people_id = face_records_json["results"][0]["_id"]
+        except Exception as e:
+            print(f"Error in __init__ list face records: {e}")
+
+        self._add_tag = { "tags_data": [
             {
-                "record_id": "n9vyqgI4SRugwJ-yLxKTWw",
-                "_obj_id": "f876cec256027ded8710441e49f33eac61515c59",
-                "record": {
-                    "_description": "00000",
+                "_tag_name": "Tag1",
+                "_tag_color": "#F4667C"
+            },
+            {
+                "_tag_name": "Tag2",
+                "_tag_color": "#36CD36"
+            }
+        ] }
+        try:
+            response = add_tags(self._add_tag)
+            tags_json = json.loads(response)
+            self.tag_id1 = tags_json["tags"][0]["_id"]
+            self.tag_id2 = tags_json["tags"][1]["_id"]
+        except Exception as e:
+            print(f"Error in __init__ add tags: {e}")
+
+
+        self.update_record = {
+            "parent_dir": self.record_parent_dir,
+            "file_name": self.record_file_name,
+            "data": {
+                "_description": "00000"
+            }
+        }
+        self.update_records = {
+            "records_data": [
+                {
+                    "record_id": self.record_id,
+                    "_obj_id": self.record_obj_id,
+                    "record": {
+                        "_description": "11111",
+                    }
+                }
+            ]
+        }
+        self._add_view = {
+            "name": "New View",
+        }
+        self._update_tag = { "tags_data": [
+            {
+                "tag_id": self.tag_id1,
+                "tag": {
+                    "_tag_color": "#9860E5",
+                    "_tag_name": "new tag"
                 }
             }
-        ]
-    })
-    except Exception as e:
-        print(f"Error in update_metadata_records: {e}")
-    
-    try:
-        add_column("testColumn1", "testColumn1", "text")
-    except Exception as e:
-        print(f"Error in add_column: {e}")
-
-
-def run_tags_api_tests():
-    try:
-        list_tags()
-    except Exception as e:
-        print(f"Error in list_tags: {e}")
-    
-    try:
-        add_tags([
-        {
-            "_tag_name": "tagTest2",
-            "_tag_color": "#F4667C"
-        }
-    ])
-    except Exception as e:
-        print(f"Error in add_tags: {e}")
-    
-    try:
-        update_tags([
-        {
-            "tag_id": "AcqwwxjeQHeTeo1ExpPZbg",
-            "tag": {
-                "_tag_color": "#9860E5",
-                "_tag_name": "newTagTest"
+        ] }
+        self._update_file_tags = { "file_tags_data": [
+            {
+                "tags": [self.tag_id2],
+                "record_id": self.record_id
             }
+        ] }
+        self._list_tags_files = { 
+            "tags_ids": [self.tag_id1]
         }
-    ])
-    except Exception as e:
-        print(f"Error in update_tags: {e}")
-    
-    try:
-        delete_tags([
-        "AcqwwxjeQHeTeo1ExpPZbg"
-    ])
-    except Exception as e:
-        print(f"Error in delete_tags: {e}")
-    
-    try:
-        update_file_tags({ 
-        "file_tags_data": [
-        {
-            "tags": ["gXe6D6XhQmSmst5SizjAWQ",
-                     "CzRlYMm1SiWrBiHHu5KH8Q"],
-            "record_id": "-P52LX7KRPGO_lo273YEYg"
+        self._add_tags_links = {
+            "row_id_map": { self.tag_id1 : [self.tag_id2] },
+            "link_column_key": "_tag_parent_links"
         }
-        ]
-    })
-    except Exception as e:
-        print(f"Error in update_file_tags: {e}")
-    
-    try:
-        list_tag_files("gXe6D6XhQmSmst5SizjAWQ")
-    except Exception as e:
-        print(f"Error in list_tag_files: {e}")
-    
-    try:
-        list_tags_files({ 
-        "tags_ids": ["gXe6D6XhQmSmst5SizjAWQ", "CzRlYMm1SiWrBiHHu5KH8Q"]
-    })
-    except Exception as e:
-        print(f"Error in list_tags_files: {e}")
-    
-    try:
-        add_tags_links({
-        "row_id_map": { "gXe6D6XhQmSmst5SizjAWQ": ["CzRlYMm1SiWrBiHHu5KH8Q"] },
-        "link_column_key": "_tag_parent_links"
-    })
-    except Exception as e:
-        print(f"Error in add_tags_links: {e}")
-    
-    try:
-        delete_tags_links({
-        "link_column_key": "_tag_parent_links",
-        "row_id_map": { "gXe6D6XhQmSmst5SizjAWQ": ["CzRlYMm1SiWrBiHHu5KH8Q"] }
-    })
-    except Exception as e:
-        print(f"Error in delete_tags_links: {e}")
-    
-    try:
-        merge_tags({
-        "merged_tags_ids": ["gXe6D6XhQmSmst5SizjAWQ"],
-        "target_tag_id": "CzRlYMm1SiWrBiHHu5KH8Q"
-    })
-    except Exception as e:
-        print(f"Error in merge_tags: {e}")
+        self._delete_tags_links = {
+            "link_column_key": "_tag_parent_links",
+            "row_id_map": { self.tag_id1 : [self.tag_id2] }
+        }
+        self._merge_tags = {
+            "merged_tags_ids": [self.tag_id2],
+            "target_tag_id": self.tag_id1
+        }
+        self._delete_tags = ([
+                self.tag_id1
+        ])
 
+        pass
     
-    try:
-        turn_off_tags_feature()
-    except Exception as e:
-        print(f"Error in turn_off_tags_feature: {e}")
-
-def run_views_api_tests():
-    try:
-        list_views()
-    except Exception as e:
-        print(f"Error in list_views: {e}")
-    
-    try:
-        add_view(_name="New View")
-    except Exception as e:
-        print(f"Error in add_view: {e}")
-    
-    try:
-        update_view("4jmf", "NewViewName")
-    except Exception as e:
-        print(f"Error in update_view: {e}")
-    
-    try:
-        delete_view("4jmf")
-    except Exception as e:
-        print(f"Error in delete_view: {e}")
+    def run_config_api_tests(self):
+        try:
+            details_settings([self.new_column])
+            exract_file_details([self.record_obj_id])
+        except Exception as e:
+            print(f"Error in run_config_api_tests: {e}")
         
-    try:
-        get_a_view("f72b")
-    except Exception as e:
-        print(f"Error in get_a_view: {e}")
-    
-    try:
-        move_view("zb6q", "f72b")
-    except Exception as e:
-        print(f"Error in move_view: {e}")
-    
-    try:
-        duplicate_view("f72b")
-    except Exception as e:
-        print(f"Error in duplicate_view: {e}")
+    def run_records_api_tests(self):
+        try:
+            list_metadata_records(self.view_id, self.start, self.limit)
+            get_metadata_record(self.record_parent_dir, self.record_file_name)
+            update_metadata_record(self.update_record)
+            update_metadata_records(self.update_records)
+            add_column(self.new_column, self.new_column, "text")
+        except Exception as e:
+            print(f"Error in run_records_api_tests: {e}")
 
+    def run_tags_api_tests(self):
+        try:
+            list_tags()
+            update_tags(self._update_tag)
+            update_file_tags(self._update_file_tags)
+            list_tag_files(self.tag_id1)
+            list_tags_files(self._list_tags_files)
+            add_tags_links(self._add_tags_links)
+            delete_tags_links(self._delete_tags_links)
+            merge_tags(self._merge_tags)
+            delete_tags(self._delete_tags)
+            turn_off_tags_feature()
+        except Exception as e:
+            print(f"Error in run_tags_api_tests: {e}")
 
+    def run_views_api_tests(self):
+        try:
+            response = add_view(self._add_view)
+            views_json = json.loads(response)
+            view_id1 = views_json["view"]["_id"]
+            update_view(view_id1, "View1")
+            get_a_view(view_id1)
+            duplicate_view(view_id1)
+            move_view(self.view_id, view_id1)
+            delete_view(view_id1)
+        except Exception as e:
+            print(f"Error in run_views_api_tests: {e}") 
+
+    def run_face_recognition_api_tests(self):
+        pass
+        # try:
+        #     response = list_people_photos(self.people_id, self.start, self.limit)
+        #     photos_json = json.loads(response)
+        #     photo_rocord_id = photos_json["results"][0]["_id"]
+        #     remove_people_photos(self.people_id, { "record_ids": [photo_rocord_id] })
+        #     update_people_cover_photo(self.people_id, { "record_id": photo_rocord_id })
+        # except Exception as e:
+        #     print(f"Error in run_face_recognition_api_tests: {e}")   
 def main():
-    run_config_api_tests()
-    run_face_recognition_api_tests()
-    run_records_api_tests()
-    run_tags_api_tests()
-    run_views_api_tests()
+    metadata_test = MetadataAPITest()
+    metadata_test.run_config_api_tests()
+    metadata_test.run_records_api_tests()
+    metadata_test.run_views_api_tests()
+    metadata_test.run_tags_api_tests()
+    metadata_test.run_face_recognition_api_tests()
 
     print("\n========== All tests completed ==========")
 

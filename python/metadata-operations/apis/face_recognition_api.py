@@ -73,6 +73,10 @@ def list_face_records(_start: int =0, _limit: int =1000):
         "Time": formatted_time
     }
     write_simple_result(row_data)
+    if response.status_code == 200:
+        return response.text
+    else:
+        return None
 
 def list_people_photos(_people_id: str, _start: int =0, _limit: int =1000):
     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/people-photos/{_people_id}/?start={_start}&limit={_limit}"
@@ -94,6 +98,10 @@ def list_people_photos(_people_id: str, _start: int =0, _limit: int =1000):
         "Time": formatted_time
     }
     write_simple_result(row_data)
+    if response.status_code == 200:
+        return response.text
+    else:
+        return None
 
 def remove_people_photos(_people_id: str, _payload: dict = None):
     url = f"{SEAFILE_SERVER_URL}/api/v2.1/repos/{REPO_ID}/metadata/people-photos/{_people_id}/"
@@ -188,15 +196,15 @@ def update_people_cover_photo(_people_id: str, _payload: dict = None):
     write_simple_result(row_data)
 
 if __name__ == "__main__":
-    get_face_recognition_enabled_status()
-    open_face_recognition()
-    list_face_records(0, 10)
-    list_people_photos("LZQ_sH2lTguOCKR76Gmm4w", 0, 5)
-    remove_people_photos("LZQ_sH2lTguOCKR76Gmm4w", { "record_ids": ["wQAzg1GAQV6-FWmKmUNqgw"] })
-    # add_people_photos("LZQ_sH2lTguOCKR76Gmm4w", { "record_ids": ["7dmU4bf2RhW_tii3qMLZYA"] })
-    # update_face_name({
-    #     "record_id": "1gquLClnRl-o3roFtT6fEg",
-    #     "name": "newName"
-    # })
-    update_people_cover_photo("LZQ_sH2lTguOCKR76Gmm4w", { "record_id": "l52n-YEsReqIovE8F1_bHw" })
+    # get_face_recognition_enabled_status()
+    # open_face_recognition()
+    # list_face_records(0, 10)
+    # list_people_photos("LZQ_sH2lTguOCKR76Gmm4w", 0, 5)
+    # remove_people_photos("LZQ_sH2lTguOCKR76Gmm4w", { "record_ids": ["wQAzg1GAQV6-FWmKmUNqgw"] })
+    # # add_people_photos("LZQ_sH2lTguOCKR76Gmm4w", { "record_ids": ["7dmU4bf2RhW_tii3qMLZYA"] })
+    # # update_face_name({
+    # #     "record_id": "1gquLClnRl-o3roFtT6fEg",
+    # #     "name": "newName"
+    # # })
+    # update_people_cover_photo("LZQ_sH2lTguOCKR76Gmm4w", { "record_id": "l52n-YEsReqIovE8F1_bHw" })
     pass
