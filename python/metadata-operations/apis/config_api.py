@@ -27,7 +27,7 @@ def get_metadata_enable_status():
     row_data = {
         "Operation": "Get metadata enabled status",
         "Status Code": response.status_code,
-        "Response": response.text,
+        
         "Time": formatted_time
     }
     write_simple_result(row_data)
@@ -53,7 +53,7 @@ def enable_metadata():
     row_data = {
         "Operation": "Enable metadata",
         "Status Code": response.status_code,
-        "Response": response.text,
+        
         "Time": formatted_time
     }
     write_simple_result(row_data)
@@ -75,7 +75,7 @@ def disable_metadata():
     row_data = {
         "Operation": "Disable metadata",
         "Status Code": response.status_code,
-        "Response": response.text,
+        
         "Time": formatted_time
     }
     write_simple_result(row_data)
@@ -99,7 +99,7 @@ def details_settings(_columns: list[str] = []):
     row_data = {
         "Operation": "Detail settings",
         "Status Code": response.status_code,
-        "Response": response.text,
+        
         "Time": formatted_time
     }
     write_simple_result(row_data)
@@ -123,7 +123,7 @@ def exract_file_details(_obj_ids: list[str]):
     row_data = {
         "Operation": "Extract file details",
         "Status Code": response.status_code,
-        "Response": response.text,
+        
         "Time": formatted_time
     }
     write_simple_result(row_data)
