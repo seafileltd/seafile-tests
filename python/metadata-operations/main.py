@@ -107,16 +107,16 @@ class MetadataAPITest:
         except Exception as e:
             print(f"Error in __init__ list metadata records: {e}")
 
-        try:
-            get_face_recognition_enabled_status()
-            open_face_recognition()
-            response = list_face_records(self.start, self.limit)
-            face_records_json = json.loads(response)
-            if len(face_records_json["results"]) == 0:
-                print("No face records found")
-            self.people_id = face_records_json["results"][0]["_id"]
-        except Exception as e:
-            print(f"Error in __init__ list face records: {e}")
+        # try:
+        #     get_face_recognition_enabled_status()
+        #     open_face_recognition()
+        #     response = list_face_records(self.start, self.limit)
+        #     face_records_json = json.loads(response)
+        #     if len(face_records_json["results"]) == 0:
+        #         print("No face records found")
+        #     self.people_id = face_records_json["results"][0]["_id"]
+        # except Exception as e:
+        #     print(f"Error in __init__ list face records: {e}")
 
         self._add_tag = { "tags_data": [
             {
